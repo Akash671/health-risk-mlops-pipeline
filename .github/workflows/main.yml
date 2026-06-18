@@ -10,15 +10,21 @@ jobs:
   continuous-integration:
     runs-on: ubuntu-latest
     steps:
+    # Fix 1: Fetch complete repository history to prevent shallow git rejections
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
     - name: Set up Python 3.10
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
+        
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        
     - name: Execute Automated Testing
       run: pytest tests/
 
@@ -26,10 +32,22 @@ jobs:
     needs: continuous-integration
     runs-on: ubuntu-latest
     steps:
+    # Fix 2: Fetch full history for the deployment runner as well
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
     - name: Mirror Repo to Hugging Face (Triggers Cloud Build & CT)
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
+        # Fix 3: Configure local identity to allow the virtual environment runner to push
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+        
+        # Guardrail: Convert runner branch snapshot from shallow to deep tracking safely
+        git fetch --unshallow || true
+        
+        # Link and forcefully align your repository straight to Hugging Face
         git remote add hf https://x-access-token:$HF_TOKEN@huggingface.co/spaces/Akash671/health-risk-mlops-pipeline
-        git push --force hf main
+        git push --force hf main:main
