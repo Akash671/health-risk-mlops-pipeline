@@ -10,9 +10,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Run the complete ETL and Training pipeline during container build time
+# 🔥 CRITICAL FIX: Explicitly bind the secret into the build engine state context
 ARG SUPABASE_DB_URL
 ENV SUPABASE_DB_URL=$SUPABASE_DB_URL
+
+# Now the script can read the variable during compilation
 RUN python src/etl_pipeline.py && python src/train.py
 
 EXPOSE 7860
