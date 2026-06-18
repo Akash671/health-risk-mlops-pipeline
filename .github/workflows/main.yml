@@ -31,5 +31,5 @@ jobs:
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
-        git remote add hf https://x-access-token:$HF_TOKEN@huggingface.co/spaces/${{ github.repository_owner }}/health-risk-api
+        git remote add hf https://x-access-token:$HF_TOKEN@huggingface.co/spaces/Akash671/health-risk-mlops-pipeline
         git push --force hf main
