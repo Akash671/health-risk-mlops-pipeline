@@ -4,4 +4,7 @@ __pycache__/
 *.pkl
 *.joblib
 .env
+# Change your .gitignore line to this:
 data/healthcare_real_time_dataset.csv
+!data/sample_patients.csv
+
