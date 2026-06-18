@@ -32,4 +32,3 @@ def predict(payload: PredictionInput):
 
 
 
-# postgresql://postgres:Bug_killer@4545@db.nevzmprqlpxjmgvbvkhh.supabase.co:5432/postgres
