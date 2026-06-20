@@ -21,7 +21,7 @@ def run_etl():
     
     # Process Target Variable
     raw_df['Health Risk Level'] = raw_df['Health Risk Level'].astype(str).str.strip().str.title()
-    target_mapping = {'Low': 0, 'Medium': 1, 'High': 2}
+    target_mapping = {'Low': 0, 'Moderate': 1, 'High': 2}
     y = raw_df['Health Risk Level'].map(target_mapping).fillna(-1).astype(int)
     
     # Process Features
