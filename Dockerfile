@@ -1,14 +1,14 @@
-FROM python:3.10-slim
+FROM python:3.10-slim # intializing python version 3.10 environment
 
-WORKDIR /code
+WORKDIR /code # setting working directory for the container
 
 # Install system dependencies required for database compilation
-RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/* #installing system dependencies for the container
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt . # copying the requirements.txt file to the container
+RUN pip install --no-cache-dir -r requirements.txt # installing the dependencies for the container
 
-COPY . .
+COPY . . # copying the entire project to the container
 
 EXPOSE 7860
 
