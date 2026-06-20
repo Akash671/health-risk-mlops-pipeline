@@ -1,14 +1,20 @@
-FROM python:3.10-slim # intializing python version 3.10 environment
+# Initialize python version 3.10 environment
+FROM python:3.10-slim
 
-WORKDIR /code # setting working directory for the container
+# Set working directory for the container
+WORKDIR /code
 
 # Install system dependencies required for database compilation
-RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/* #installing system dependencies for the container
+RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt . # copying the requirements.txt file to the container
-RUN pip install --no-cache-dir -r requirements.txt # installing the dependencies for the container
+# Copy the requirements.txt file to the container
+COPY requirements.txt .
 
-COPY . . # copying the entire project to the container
+# Install the dependencies for the container
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the entire project to the container
+COPY . .
 
 EXPOSE 7860
 
@@ -21,3 +27,4 @@ RUN --mount=type=secret,id=SUPABASE_DB_URL,mode=0444,required=true \
 
 # Serve the FastAPI application on Hugging Face default port 7860
 CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "7860"]
+
